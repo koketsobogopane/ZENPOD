@@ -2,7 +2,8 @@ import Show from "./Show";
 
 export default {
     title: 'components/Show',
-    component: Show
+    component: Show,
+    
 }
 
-export const Template = () => <Show/>
+export const Template = () => <Show />

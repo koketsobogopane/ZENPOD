@@ -9,6 +9,12 @@ import SelfImprovementSharpIcon from '@mui/icons-material/SelfImprovementSharp';
 import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 import SearchModal from '../SearchModal/SearchModal';
 
+const option = [
+    'A-Z',
+    'Z-A',
+    'Oldest to Newest',
+    'Newest to Oldest'
+]
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -42,17 +48,18 @@ const Navbar = () => {
                 </Typography>
                 <IconButton
                 size='large'
-                edge="start"
+                edge="end"
                 color='inherit'
                 aria-label="menu"
                 sx={{ mr: 1 }}
                 >
-                    <SortSharpIcon/>   
+                    <SortSharpIcon/>  
+                    
                 </IconButton>
                 <IconButton
                 onClick={handleClickOpen}
                 size='large'
-                edge="start"
+                edge="end"
                 color='inherit'
                 aria-label="menu"
                 sx={{ mr: 1 }}
