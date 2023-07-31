@@ -1,10 +1,11 @@
 
 import styled from "@emotion/styled"
 import { Card, Typography, Button, IconButton } from "@mui/material"
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {Accordion, AccordionSummary, AccordionDetails,} from "@mui/material"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import Pause from "@mui/icons-material/Pause"
 import InfoIcon from '@mui/icons-material/Info';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import Loading from "../Loading/Loading"
@@ -13,6 +14,50 @@ import Slider from '@mui/material/Slider'
 const Show = (props) =>{ 
 
  const [ show, setShow ] = useState()
+
+ const [ play, setPlay ] = useState(false)
+ const audioRef = useRef(null)
+ const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(-1);
+
+//  const toggleAudio = (index) => {
+//     console.log (index)
+//     if (currentEpisodeIndex !== index) {
+//         // If a new episode is clicked to play
+//         if (currentEpisodeIndex !== -1) {
+//           // Pause the current episode if it's already playing
+//           audioRefs[currentEpisodeIndex].current?.pause();
+//         }
+  
+//         // Start playing the new episode
+//         audioRefs[index].current.src = show.seasons[index].episodes[0].file;
+//         audioRefs[index].current?.play();
+//         setCurrentEpisodeIndex(index);
+//       } else {
+//         // Pause the track when clicked again
+//         audioRefs[index].current?.pause();
+//         setCurrentEpisodeIndex(-1);
+//       }
+
+
+
+    // if (play) {
+    //     // pause the track when clicked again
+    //     audioRef.current?.pause();
+    //     setPlay(false)
+    // } else {
+
+        
+    //     audioRef.current?.play()
+    //     setPlay(true)
+    // }
+ //}
+
+//  const audioRefs = show.seasons.map(() => useRef(null));
+
+//  useEffect(() => {
+//     // Clean up the audio elements when the component unmounts
+//     audioRefs.forEach((ref) => ref.current?.pause());
+//   }, []);
 
  useEffect(() => {
     const fetchData = async () => {
@@ -28,9 +73,11 @@ const Show = (props) =>{
     fetchData();
   }, [props.displayShow]);
 
-
-
   if (!show) return <Loading />
+
+
+
+  
 
     const Image = styled.img`
         width: 150px;
@@ -128,9 +175,12 @@ const EpisodeControls = styled('div')`
                             <AccordionDetails>
                                 <div>{episode.description}</div>
                             <EpisodeControls>
-                                    <IconButton>
-                                        <PlayArrowIcon />
-                                    </IconButton>
+                                    {/* <IconButton onClick={() => toggleAudio(index)}>
+                                        {
+                                            !play? <PlayArrowIcon /> : <Pause />
+                                        }
+                                    </IconButton> */}
+                                     <audio  src={episode.file} controls  />
                                     <IconButton>
                                         <StarOutlineIcon />
                                     </IconButton>
@@ -140,6 +190,7 @@ const EpisodeControls = styled('div')`
                                         aria-label="Small"
                                         valueLabelDisplay="auto"
                                         />
+                                       
                                 </EpisodeControls>
                             </AccordionDetails>
                             </Accordion>

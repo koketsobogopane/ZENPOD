@@ -8,6 +8,7 @@ import SortSharpIcon from '@mui/icons-material/SortSharp';
 import SelfImprovementSharpIcon from '@mui/icons-material/SelfImprovementSharp';
 import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 import SearchModal from '../SearchModal/SearchModal';
+import { Menu, MenuItem } from '@mui/material';
 
 const option = [
     'A-Z',
@@ -16,8 +17,17 @@ const option = [
     'Newest to Oldest'
 ]
 
-const Navbar = () => {
+const Navbar = (props) => {
     const [isOpen, setIsOpen] = useState(false)
+    const [anchorEl, setAnchorEl] = useState(null)
+    
+    const open = Boolean(anchorEl)
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget)
+    }
+    const handleCloseMenu = () => {
+        setAnchorEl(null);
+    }
 
     const handleClickOpen = () => {
         setIsOpen(true);
@@ -26,6 +36,11 @@ const Navbar = () => {
       const handleClose = () => {
         setIsOpen(false);
       };
+
+    const handleItemsClick = (option) => {
+        console.log (option);
+        handleCloseMenu()
+    }
 
     const StyleAppBar = styled(AppBar)`
         background-color: #79B791;
@@ -53,8 +68,39 @@ const Navbar = () => {
                 aria-label="menu"
                 sx={{ mr: 1 }}
                 >
-                    <SortSharpIcon/>  
-                    
+                    <SortSharpIcon 
+                    titleAccess="Sort"
+                    onClick={handleClick}
+                    aria-controls={open ? 'Sort-Menu': undefined}
+                    aria-haspopup= 'true'
+                    aria-expanded = { open ? 'true' : undefined}
+                    />  
+                    <Menu 
+                    id='Sort-Menu'
+                    anchorEl={anchorEl}
+                    aria-labelledby = "Sort-Menu"
+                    open={open}
+                    onClose={handleCloseMenu}
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left'
+                    }}
+                    transformOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'center'
+                    }}
+                    >
+                        {option.map((element)=> (
+                            <MenuItem 
+                                value = {element}
+                                onClick= {() => {
+                                    props.sortClick(element)
+                                    setAnchorEl(null);
+                                }}
+                                key= {element} 
+                                >{element}</MenuItem>
+                            ))}
+                    </Menu>
                 </IconButton>
                 <IconButton
                 onClick={handleClickOpen}
@@ -64,7 +110,7 @@ const Navbar = () => {
                 aria-label="menu"
                 sx={{ mr: 1 }}
                 >
-                    <SearchSharpIcon/>   
+                    <SearchSharpIcon titleAccess='Search'/>   
                 </IconButton>
             </Toolbar>
             <SearchModal handleClose={handleClose}open={isOpen}/>

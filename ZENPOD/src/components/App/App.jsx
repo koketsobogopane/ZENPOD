@@ -5,12 +5,34 @@ import List from "../List/List"
 import Show from '../Show/Show'
 import { useEffect, useState } from 'react'
 import Loading from "../Loading/Loading"
-
+import AudioDrawer from "../AudioDrawer/AudioDrawer"
 
 const App = () => {
     
     const [content, setContent] = useState()
+    const [sortBy, setSortBy] = useState('A-Z')
+    // sort by A to Z or Z to A
+    let sortedShows 
+    if(!content){
+        sortedShows= []
+        } 
+        else if(sortBy === "A-Z"){
+            sortedShows = content?.sort((a, b) => a["title"].localeCompare( b['title']))
+        }
+        else  if(sortBy === "Z-A"){
+            sortedShows = [...content].reverse()
+        } 
+        else if(sortBy === "Oldest to Newest"){
+            sortedShows = content ?.sort((a, b)=> new Date(a['updated']) - new Date(b['updated']))
+        }else if(sortBy === "Newest to Oldest"){
+            sortedShows = content ?.sort((a, b)=> new Date(a['updated']) - new Date(b['updated']))
+        }
 
+        
+    
+    const onClick = (option) => {
+        setSortBy(option) 
+    }
     useEffect(
     
     () => {
@@ -48,8 +70,9 @@ if (!content) return <Loading />
     return (
         <div>
         <Global styles={global} />
-            <Navbar/>
-            {showIsClicked ? <Show displayShow={showId} /> : <List onClick={handleClick}  content={content} />}
+            <Navbar sortClick={onClick}/>
+            {showIsClicked ? <Show displayShow={showId} /> : <List onClick={handleClick}  content={sortedShows} />}
+            <AudioDrawer />
             </div>
     )
 }
