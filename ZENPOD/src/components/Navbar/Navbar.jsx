@@ -10,6 +10,7 @@ import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 import SearchModal from '../SearchModal/SearchModal';
 import { Menu, MenuItem } from '@mui/material';
 
+
 const option = [
     'A-Z',
     'Z-A',
@@ -23,7 +24,7 @@ const Navbar = (props) => {
     
     const open = Boolean(anchorEl)
     const handleClick = (event) => {
-        setAnchorEl(event.currentTarget)
+        setAnchorEl(event.target)
     }
     const handleCloseMenu = () => {
         setAnchorEl(null);
@@ -37,8 +38,7 @@ const Navbar = (props) => {
         setIsOpen(false);
       };
 
-    const handleItemsClick = (option) => {
-        console.log (option);
+    const handleItemsClick = () => {
         handleCloseMenu()
     }
 
@@ -67,10 +67,11 @@ const Navbar = (props) => {
                 color='inherit'
                 aria-label="menu"
                 sx={{ mr: 1 }}
+                onClick={handleClick}
                 >
                     <SortSharpIcon 
                     titleAccess="Sort"
-                    onClick={handleClick}
+                    
                     aria-controls={open ? 'Sort-Menu': undefined}
                     aria-haspopup= 'true'
                     aria-expanded = { open ? 'true' : undefined}
@@ -95,7 +96,7 @@ const Navbar = (props) => {
                                 value = {element}
                                 onClick= {() => {
                                     props.sortClick(element)
-                                    setAnchorEl(null);
+                                    handleCloseMenu()
                                 }}
                                 key= {element} 
                                 >{element}</MenuItem>
@@ -113,7 +114,7 @@ const Navbar = (props) => {
                     <SearchSharpIcon titleAccess='Search'/>   
                 </IconButton>
             </Toolbar>
-            <SearchModal handleClose={handleClose}open={isOpen}/>
+            <SearchModal handleClose={handleClose}open={isOpen} setSearchQuery= {props.setSearchQuery} />
         </StyleAppBar>
         
     )

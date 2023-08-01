@@ -1,16 +1,26 @@
 import Card from '@mui/material/Card'
 import CardContent from "@mui/material/CardContent"
 import CardMedia from '@mui/material/CardMedia'
-import { Typography } from '@mui/material'
+import {  Typography } from '@mui/material'
 import { CardActionArea } from "@mui/material"
 import { styled } from '@mui/material'
 
-
+export const genres = [	
+    {id: "1", name: "Personal Growth"},
+    {id: "2", name: "True Crime and Investigative Journalism"},
+    {id: "3", name: "History"},
+    {id: "4", name: "Comedy"},
+    {id: "5", name: "Entertainment"},
+    {id: "6", name: "Business"},
+    {id: "7", name: "Fiction"},
+    {id: "8", name: "News"},
+    {id: "9", name: "Kids and Family"},
+]
 
 const List = (props) => {
  
     
-    
+   
 
     const MainList = styled('main')`
         margin: .5rem;
@@ -22,7 +32,9 @@ const List = (props) => {
        
     `
     return (
+        
         <MainList>
+            
             {props.content.map(
                 (element) => {
                     return (
@@ -39,7 +51,7 @@ const List = (props) => {
                                         {element.title}
                                     </Typography>
                                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                        Genre:{element.genres}
+                                        Genre: {element.genres.map((genre) => genres[genre -1].name)}
                                     </Typography>
                                     <Typography>
                                         Description:<br/>{element.description}<br/><br/>
@@ -56,7 +68,9 @@ const List = (props) => {
                     )
                 }
             )}
+            
         </MainList>
+        
     )
 }
 

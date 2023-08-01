@@ -6,15 +6,23 @@ import Show from '../Show/Show'
 import { useEffect, useState } from 'react'
 import Loading from "../Loading/Loading"
 import AudioDrawer from "../AudioDrawer/AudioDrawer"
+import Fuse from 'fuse.js'
+import { genres } from "../List/List"
+
 
 const App = () => {
     
     const [content, setContent] = useState()
-    const [sortBy, setSortBy] = useState('A-Z')
+    const [sortBy, setSortBy] = useState('')
+    const [searchQuery, setSearchQuery] = useState({
+        title:'',
+        genre: ''
+    })
+    
     // sort by A to Z or Z to A
-    let sortedShows 
+    let sortedShows = []
     if(!content){
-        sortedShows= []
+        sortedShows
         } 
         else if(sortBy === "A-Z"){
             sortedShows = content?.sort((a, b) => a["title"].localeCompare( b['title']))
@@ -25,9 +33,65 @@ const App = () => {
         else if(sortBy === "Oldest to Newest"){
             sortedShows = content ?.sort((a, b)=> new Date(a['updated']) - new Date(b['updated']))
         }else if(sortBy === "Newest to Oldest"){
-            sortedShows = content ?.sort((a, b)=> new Date(a['updated']) - new Date(b['updated']))
+            sortedShows = content ?.sort((a, b)=> new Date(b['updated']) - new Date(a['updated']))
+        } else {
+            sortedShows = content
         }
 
+        
+          
+        
+           
+    
+        
+
+        if (content){
+            sortedShows = content.filter((element) => {
+                const lowerCaseTitle = searchQuery.title.toLowerCase();
+                const genreId = parseInt(searchQuery.genre);
+            
+                const titleMatch = element.title.toLowerCase().includes(lowerCaseTitle);
+                const genreMatch = !isNaN(genreId) && element.genres.includes(genreId);
+            
+                // Check if both title and genre match the search query
+                if (searchQuery.genre !== '' && searchQuery.title !== '') {
+                  return titleMatch && genreMatch;
+                }
+            
+                // Only check title match if genre is not specified
+                if (searchQuery.genre === '' && searchQuery.title !== '') {
+                  return titleMatch;
+                }
+            
+                // Only check genre match if title is not specified
+                if (searchQuery.genre !== '' && searchQuery.title === '') {
+                  return genreMatch;
+                }
+            
+                // If neither genre nor title is specified, return all elements
+                return true;})}
+        // })}
+            // if (!search) {
+            //     console.log('search is undefined'); // No need to search if the searchQuery is empty
+            //     return
+            //   }
+
+            //   const fuseOptions = {
+            //     keys: ['name'],
+            //     includeScore: true,
+            //   }
+
+            //   const fuse = new Fuse(sampleData, fuseOptions);
+
+            //   const searchResults = fuse.search(search);
+            //   const filteredData = searchResults.map((result) => result.item)
+
+            //   console.log ('Search Result:', filteredData)
+            
+
+        // const searchResults = fuse.search(search);
+        // const filteredData = searchResults.map((result) => result.item)
+        // console.log (filteredData)
         
     
     const onClick = (option) => {
@@ -70,7 +134,7 @@ if (!content) return <Loading />
     return (
         <div>
         <Global styles={global} />
-            <Navbar sortClick={onClick}/>
+            <Navbar sortClick={onClick}  setSearchQuery = {setSearchQuery} />
             {showIsClicked ? <Show displayShow={showId} /> : <List onClick={handleClick}  content={sortedShows} />}
             <AudioDrawer />
             </div>
