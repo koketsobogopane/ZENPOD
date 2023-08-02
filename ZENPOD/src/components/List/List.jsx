@@ -4,6 +4,7 @@ import CardMedia from '@mui/material/CardMedia'
 import {  Typography } from '@mui/material'
 import { CardActionArea } from "@mui/material"
 import { styled } from '@mui/material'
+import { Link, Route, Router } from 'react-router-dom'
 
 export const genres = [	
     {id: "1", name: "Personal Growth"},
@@ -38,7 +39,9 @@ const List = (props) => {
             {props.content.map(
                 (element) => {
                     return (
-                        <StyledCard key={element.id} id={element.id} sx={{ mt: 2}} variant='outlined' onClick={() => props.onClick(element.id)}>
+                        <Link to= "/show" key={element.id} style={{ listStyle: 'none', textDecoration: 'none'}}>
+                        <StyledCard  id={element.id} sx={{ mt: 2}} variant='outlined' onClick={() => {props.onClick(element.id)}}>
+                            
                             <CardActionArea>
                                 <CardMedia
                                 component="img"
@@ -64,11 +67,13 @@ const List = (props) => {
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
+                            
                         </StyledCard>
+                        </Link>
+                        
                     )
                 }
             )}
-            
         </MainList>
         
     )

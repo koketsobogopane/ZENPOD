@@ -22,7 +22,7 @@ const option = [
 const Navbar = (props) => {
     const [isOpen, setIsOpen] = useState(false)
     const [anchorEl, setAnchorEl] = useState(null)
-    const [sortValue, setSortValue] = useState('')
+    const [sortValue, setSortValue] = useState('A-Z')
     
     const open = Boolean(anchorEl)
     const handleClick = (event) => {
@@ -77,7 +77,6 @@ const Navbar = (props) => {
                         id='Sorting'
 
                     >
-                   
                         {option.map((element)=> (
                             <MenuItem 
                                 value = {element}
@@ -90,18 +89,7 @@ const Navbar = (props) => {
                             ))}
                     </Select>
                 </FormControl>
-                <IconButton
-                onClick={handleClickOpen}
-                size='large'
-                edge="end"
-                color='inherit'
-                aria-label="menu"
-                sx={{ mr: 1 }}
-                >
-                    <SearchSharpIcon titleAccess='Search'/>   
-                </IconButton>
             </Toolbar>
-            <SearchModal handleClose={handleClose}open={isOpen} setSearchQuery= {props.setSearchQuery} />
         </StyleAppBar>
         
     )

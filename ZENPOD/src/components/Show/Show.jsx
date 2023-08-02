@@ -10,6 +10,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import Loading from "../Loading/Loading"
 import Slider from '@mui/material/Slider'
+import { Link, Route, Routes } from "react-router-dom"
 
 const Show = (props) =>{ 
 
@@ -123,7 +124,7 @@ const EpisodeControls = styled('div')`
     return (
 
         <>
-         <Button style={{ margin: '10px', color: 'black'  }}>Back</Button>   
+         <Button style={{ margin: '10px', color: 'black'  }} >Back</Button>   
         
 
         <div className="image-card" style={{
@@ -138,7 +139,7 @@ const EpisodeControls = styled('div')`
                 </div>
                
         <Content>
-            <Typography>
+            <Typography component={'span'}>
             <header>
             
                 <Header>
