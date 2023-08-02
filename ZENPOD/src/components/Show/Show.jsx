@@ -16,9 +16,15 @@ const Show = (props) =>{
  const [ show, setShow ] = useState()
 
  const [ play, setPlay ] = useState(false)
- const audioRef = useRef(null)
  const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(-1);
+ const MAX_DESCRIPTION_LENGTH = 150;
 
+ const toggleDescription = () => {
+    const descriptionElement = document.getElementById('show-description');
+    if (descriptionElement) {
+      descriptionElement.classList.toggle('show-full');
+    }
+  };
 //  const toggleAudio = (index) => {
 //     console.log (index)
 //     if (currentEpisodeIndex !== index) {
@@ -173,7 +179,14 @@ const EpisodeControls = styled('div')`
 
                             </AccordionSummary>
                             <AccordionDetails>
-                                <div>{episode.description}</div>
+                                <div id= "show-description" className="show-full">{episode.description}</div>
+                                <Button onClick={toggleDescription}>
+                                    {document
+                                        .getElementById('show-description')
+                                        ?.classList.contains('show-full')
+                                        ? 'Show Less'
+                                        : 'Show More'}
+                                    </Button>
                             <EpisodeControls>
                                     {/* <IconButton onClick={() => toggleAudio(index)}>
                                         {

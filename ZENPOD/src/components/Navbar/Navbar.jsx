@@ -4,11 +4,12 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import InputLabel from '@mui/material/InputLabel';
 import SortSharpIcon from '@mui/icons-material/SortSharp';
 import SelfImprovementSharpIcon from '@mui/icons-material/SelfImprovementSharp';
 import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 import SearchModal from '../SearchModal/SearchModal';
-import { Menu, MenuItem } from '@mui/material';
+import { FormControl, Menu, MenuItem, Select } from '@mui/material';
 
 
 const option = [
@@ -21,10 +22,11 @@ const option = [
 const Navbar = (props) => {
     const [isOpen, setIsOpen] = useState(false)
     const [anchorEl, setAnchorEl] = useState(null)
+    const [sortValue, setSortValue] = useState('')
     
     const open = Boolean(anchorEl)
     const handleClick = (event) => {
-        setAnchorEl(event.target)
+            setAnchorEl(event.currentTarget)
     }
     const handleCloseMenu = () => {
         setAnchorEl(null);
@@ -61,48 +63,33 @@ const Navbar = (props) => {
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     ZENPOD
                 </Typography>
-                <IconButton
-                size='large'
-                edge="end"
-                color='inherit'
-                aria-label="menu"
-                sx={{ mr: 1 }}
-                onClick={handleClick}
+                <FormControl
+                    size='small'
+                    sx={{minWidth: 23}}
                 >
-                    <SortSharpIcon 
-                    titleAccess="Sort"
-                    
-                    aria-controls={open ? 'Sort-Menu': undefined}
-                    aria-haspopup= 'true'
-                    aria-expanded = { open ? 'true' : undefined}
-                    />  
-                    <Menu 
-                    id='Sort-Menu'
-                    anchorEl={anchorEl}
-                    aria-labelledby = "Sort-Menu"
-                    open={open}
-                    onClose={handleCloseMenu}
-                    anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'left'
-                    }}
-                    transformOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'center'
-                    }}
+                    <InputLabel id= 'sorting'>Sort By</InputLabel>
+                    <Select 
+                        labelId='sorting'
+                        value={sortValue}
+                        onChange={(e)=>{setSortValue(e.target.value)}}
+                        autoWidth
+                        label="Sorting"
+                        id='Sorting'
+
                     >
+                   
                         {option.map((element)=> (
                             <MenuItem 
                                 value = {element}
                                 onClick= {() => {
                                     props.sortClick(element)
-                                    handleCloseMenu()
+                                    handleItemsClick()
                                 }}
                                 key= {element} 
                                 >{element}</MenuItem>
                             ))}
-                    </Menu>
-                </IconButton>
+                    </Select>
+                </FormControl>
                 <IconButton
                 onClick={handleClickOpen}
                 size='large'

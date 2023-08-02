@@ -5,7 +5,7 @@ import List from "../List/List"
 import Show from '../Show/Show'
 import { useEffect, useState } from 'react'
 import Loading from "../Loading/Loading"
-import AudioDrawer from "../AudioDrawer/AudioDrawer"
+
 import Fuse from 'fuse.js'
 import { genres } from "../List/List"
 
@@ -136,7 +136,6 @@ if (!content) return <Loading />
         <Global styles={global} />
             <Navbar sortClick={onClick}  setSearchQuery = {setSearchQuery} />
             {showIsClicked ? <Show displayShow={showId} /> : <List onClick={handleClick}  content={sortedShows} />}
-            <AudioDrawer />
             </div>
     )
 }
