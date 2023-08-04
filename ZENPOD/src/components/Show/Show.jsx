@@ -8,11 +8,23 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import Pause from "@mui/icons-material/Pause"
 import InfoIcon from '@mui/icons-material/Info';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import Star from '@mui/icons-material/Star'
 import Loading from "../Loading/Loading"
 import Slider from '@mui/material/Slider'
 import { Link, Route, Routes } from "react-router-dom"
 
+
+
+
+
+
 const Show = (props) =>{ 
+
+
+/**
+ * A state for all the shows that are being marked as favourites
+ */
+ const [ isFavourate, setIsFavourate] = useState([])
 
  const [ show, setShow ] = useState()
 
@@ -26,6 +38,18 @@ const Show = (props) =>{
       descriptionElement.classList.toggle('show-full');
     }
   };
+ 
+  const addtoFavourites = (event) => {
+
+    if (event.target.classList.contains('is-favourite') ){
+        event.target.classList.remove("is-favourite")
+        event.target.textContent = 'Add to Favourites'
+    } else {
+        event.target.classList.add("is-favourite"); 
+        event.target.textContent = 'Remove from Favourites'
+        const body = event.target.parentElement
+    }
+  }
 //  const toggleAudio = (index) => {
 //     console.log (index)
 //     if (currentEpisodeIndex !== index) {
@@ -44,7 +68,6 @@ const Show = (props) =>{
 //         audioRefs[index].current?.pause();
 //         setCurrentEpisodeIndex(-1);
 //       }
-
 
 
     // if (play) {
@@ -82,7 +105,7 @@ const Show = (props) =>{
 
   if (!show) return <Loading />
 
-
+ 
 
   
 
@@ -124,8 +147,10 @@ const EpisodeControls = styled('div')`
     return (
 
         <>
+        <Podcast image={show.image} description={show.description} title={show.title} id={show.id} seasons={show.seasons} setIsFavourate={setIsFavourate}/>
+        {/* <Link to= '/'>
          <Button style={{ margin: '10px', color: 'black'  }} >Back</Button>   
-        
+         </Link>
 
         <div className="image-card" style={{
                     backgroundImage: `url(${show.image})`, 
@@ -155,7 +180,7 @@ const EpisodeControls = styled('div')`
             <main>
                 <h4>Seasons</h4>
                 < List>
-                { show.seasons.map((element) => (
+                { show.seasons.map((element, i) => (
                     <Accordion key= {element.season} sx={{mt:2, p:1}}>
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
@@ -167,7 +192,7 @@ const EpisodeControls = styled('div')`
                             <AccordionDetails>
                                 <h4>Episodes</h4>
                         {element.episodes.map((episode,index) => (
-                        <Accordion key={index}>
+                        <Accordion key={index} id={index}>
                             <AccordionSummary
                                 expandIcon={ <InfoIcon />}
                                 aria-controls={"panel"+(index+3)+"b"}
@@ -188,23 +213,16 @@ const EpisodeControls = styled('div')`
                                         ? 'Show Less'
                                         : 'Show More'}
                                     </Button>
-                            <EpisodeControls>
+                            <EpisodeControls id={episode.title} >
                                     {/* <IconButton onClick={() => toggleAudio(index)}>
                                         {
                                             !play? <PlayArrowIcon /> : <Pause />
                                         }
                                     </IconButton> */}
-                                     <audio  src={episode.file} controls  />
-                                    <IconButton>
-                                        <StarOutlineIcon />
-                                    </IconButton>
-                                    <Slider
-                                        size="small"
-                                        defaultValue={79}
-                                        aria-label="Small"
-                                        valueLabelDisplay="auto"
-                                        />
-                                       
+                                     {/* <audio  src={episode.file} controls  />
+                                    <Button id={element.id} variant="outlined" sx={{m: 2}} onClick={(event) => addtoFavourites(event, index) } >
+                                          Add to Favourites
+                                    </Button>
                                 </EpisodeControls>
                             </AccordionDetails>
                             </Accordion>
@@ -215,9 +233,140 @@ const EpisodeControls = styled('div')`
                 </List>
             </main>
             </Typography>
-        </Content>
+        </Content> */} 
         </>
     )
 }    
 
 export default Show
+
+const Podcast = (props) => {
+
+
+    const Image = styled.img`
+    width: 150px;
+    height: 150px;
+    border-radius: 16px;
+    box-shadow: 1px 1px 15px rgb(128, 128, 128);
+    position: relative; 
+    top: -100px;
+`
+    const Content = styled.div`
+    margin: .7rem;
+    margin-top: 1rem;
+`
+const List = styled.div`
+    list-style: none;
+    padding: none;
+    `
+
+const Header = styled.div`
+   text-align: center;
+   position: relative;
+   `
+
+    return (
+        <>
+            <Link to= '/'>
+            <Button style={{ margin: '10px', color: 'black'  }} >Back</Button>   
+            </Link>
+
+             <div className="image-card" style={{
+                    backgroundImage: `url(${props.image})`, 
+                    backgroundSize: 'cover', 
+                    filter: 'blur(20px)',
+                    height: '150px',
+                    margin: '0',
+                    position: "relative"
+                    }}> 
+                </div>
+
+            <Content>
+                <Typography component={'span'}>
+                <header>
+            
+                <Header>
+                 
+                <Image src={props.image } alt="seasonImage"  className="image"  />
+                <h2>{props.title}</h2>
+                </Header>
+                <section> 
+                    <p>{props.description}</p>
+                </section>
+                </header>
+
+                <main>
+                    <Typography component={'span'}>
+                        <h3>Seasons</h3>
+                    </Typography>
+
+                    <List>
+                        {
+                            props.seasons.map(
+                                (seasonObj) => {
+                                    return (
+                                        <Card key= {seasonObj.season} sx={{mt:2, p:1}}>
+                                            <h4>Season {seasonObj.season}</h4>
+                                            <Link to="episodes"><Button>{seasonObj.episodes.length} Episodes</Button>
+                                            </Link>
+                                        <Routes>
+                                            <Route path="episodes" element={
+                                               <Episodes 
+                                               setIsFavourate={props.setIsFavourate}
+                                               seasonNumber={seasonObj.season}
+                                               showImg={seasonObj.image}
+                                                 episodesObj={seasonObj.episodes} />}/>
+                                                 </Routes>
+                                        </Card>
+                                    )
+                                }
+                            )
+                        }
+                    </List>
+                </main>
+                </Typography>
+            </Content>
+
+        </>
+    )
+}
+
+const Episodes = ({ episodesObj, showImg, seasonNumber, setIsFavourate }) => {
+    const addtoFavourites = (event) => {
+
+        if (event.target.classList.contains('is-favourite') ){
+            event.target.classList.remove("is-favourite")
+            event.target.textContent = 'Add to Favourites'
+        } else {
+            event.target.classList.add("is-favourite"); 
+            event.target.textContent = 'Remove from Favourites'
+            const body = event.target
+            setIsFavourate(body.id)
+        }
+      }
+
+    return (
+        <>
+            <Typography component={'span'} >
+                <h4>Episodes</h4>
+                {
+                    episodesObj.map((episode) => {
+                        return (
+                            <Card key={episode.title} >
+                                <Typography component = {'span'}>
+
+                                <h5>{episode.title}</h5>
+                                <p>{episode.description}</p>
+                                <audio  src={episode.file} controls  />
+                                <Button id={episode.title} variant="outlined" sx={{m: 2}} onClick={(event) => addtoFavourites(event) } >
+                                          Add to Favourites
+                                    </Button>
+                                </Typography>
+                            </Card>
+                        )
+                    })
+                }
+            </Typography>
+        </>
+    )
+}

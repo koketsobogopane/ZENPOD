@@ -12,17 +12,21 @@ import { Button } from "@mui/material"
 import styled from "@emotion/styled"
 import { Routes, Route, Link, useResolvedPath, useMatch, resolvePath } from "react-router-dom"
 import SearchModal from "../SearchModal/SearchModal"
-
+import Favourates from "../Favourates/Favourates"
+import SignIn from "../SignIn/SignIn"
+import supabase from "../../config/supabaseClient"
 
 
 const App = () => {
-    
+    console.log(supabase)
     const [content, setContent] = useState()
     const [sortBy, setSortBy] = useState('A-Z')
-    const [showId, setShowId] = useState(null)
+    const [showId, setShowId] = useState([])
     const [searchQuery, setSearchQuery] = useState('')
-    const resolvedPath = useResolvedPath("/browse")
-    const isBrowsing = useMatch({path: resolvedPath.pathname, end: true})
+    const resolvedPathBrowse = useResolvedPath("/browse")
+    const isBrowsing = useMatch({path: resolvedPathBrowse.pathname, end: true})
+    const resolvedPathShow = useResolvedPath(`/show/${showId}`)
+    const isOnShow = useMatch({path: resolvedPathShow.pathname, end: true})
     useEffect(
     
     () => {
@@ -47,7 +51,10 @@ const App = () => {
     }
 
     const handleShowClick = (id) => (
-        setShowId(id)
+        setShowId(prevState => (
+            prevState === id? null : id
+        )),
+        console.log(showId)
     )
 
    
@@ -60,6 +67,7 @@ const App = () => {
    
 if (!content) return <Loading />
 let sortedShows = content
+
 
 const fuseOptions = {
     keys: ['title'],
@@ -106,25 +114,28 @@ sortedShows = filteredContent.length === 0 ? content : filteredContent
     
     return (
         <div>
-        <Global styles={global} />
+     <Global styles={global} />
             <Navbar sortClick={onClick}  setSearchQuery = {setSearchQuery} />
             {
                isBrowsing ? <SearchModal handleSearchInput= {handleSearchInput} /> : ''  
             }
-            <Subnav >
-                
-                <Link   to="/" style={{ margin: '10px', color: '#51291E', }} >Home</Link>
-                <Link   to="/favourates" style={{ margin: '10px', color: '#51291E', }} >Favourates</Link>
-                <Link   to="/browse" style={{ margin: '10px', color: '#51291E', }} >Browse</Link>
-                
-                             
-            </Subnav >
+            {
+               isOnShow?  '':(<Subnav >
+                            
+                            <Link   to="/" style={{ margin: '10px', color: '#51291E', }} >Home</Link>
+                            <Link   to="/favourates" style={{ margin: '10px', color: '#51291E', }} >Favourates</Link>
+                            <Link   to="/browse" style={{ margin: '10px', color: '#51291E', }} >Browse</Link>
+                            
+                                        
+                        </Subnav >) 
+            }
             <Routes>
                 <Route path="/"  element={<List onClick={handleShowClick} content={sortedShows} />}/>
-                <Route path="/favourates"  element={<p>favourates</p>}/>
+                <Route path="/favourates"  element={<Favourates />}/>
                 <Route path="/browse"  element={<List onClick={handleShowClick} content={sortedShows} />}/>
-                <Route path="/show" element={<Show displayShow={showId} />} />
+                <Route path=  {`/show/*`}  element={<Show displayShow={showId} />} />
             </Routes>
+
             </div>
     )
 } 
