@@ -5,28 +5,51 @@ import List from "../List/List"
 import Show from '../Show/Show'
 import { useEffect, useState, useLayoutEffect } from 'react'
 import Loading from "../Loading/Loading"
-import {Box} from "@mui/material"
+import {Box, Switch} from "@mui/material"
 import Fuse from 'fuse.js'
 import { genres } from "../List/List"
 import { Button } from "@mui/material"
 import styled from "@emotion/styled"
-import { Routes, Route, Link, useResolvedPath, useMatch, resolvePath } from "react-router-dom"
+import { Routes, Route, Link, useResolvedPath, useMatch, resolvePath, useNavigate } from "react-router-dom"
 import SearchModal from "../SearchModal/SearchModal"
 import Favourates from "../Favourates/Favourates"
 import SignIn from "../SignIn/SignIn"
+import SignUp from "../SignUp/SignUp"
 import supabase from "../../config/supabaseClient"
 
 
 const App = () => {
-    console.log(supabase)
+
+
+
     const [content, setContent] = useState()
     const [sortBy, setSortBy] = useState('A-Z')
     const [showId, setShowId] = useState([])
-    const [searchQuery, setSearchQuery] = useState('')
+    const [searchQuery, setSearchQuery] = useState({
+        title: '',
+        genre:'',
+    })
+    const [currentEpisode, setCurrentEpisode] = useState(null);
+    // State to track whether the user has signed up
+  const [isSignedUp, setIsSignedUp] = useState(false);
+
+  // Function to handle successful sign-up
+  const handleSignUp = () => {
+    setIsSignedUp(true);
+    navigate('/')
+}
+
+const navigate = useNavigate()
+
     const resolvedPathBrowse = useResolvedPath("/browse")
     const isBrowsing = useMatch({path: resolvedPathBrowse.pathname, end: true})
-    const resolvedPathShow = useResolvedPath(`/show/${showId}`)
+    const resolvedPathShow = useResolvedPath(`/show/*`)
     const isOnShow = useMatch({path: resolvedPathShow.pathname, end: true})
+    const resolvedPathSignIn = useResolvedPath(["/signin", "/signup"])
+    const isOnSignIn = useMatch({path: resolvedPathBrowse.pathname, end: true})
+
+
+
     useEffect(
     
     () => {
@@ -46,6 +69,20 @@ const App = () => {
     )
    
 
+     // Function to handle episode change
+  const onEpisodeChange = (episode) => {
+    // Pause the audio if a different episode is playing
+    if (currentEpisode && currentEpisode.id !== episode.id) {
+      const audioElement = document.querySelector("audio");
+      if (audioElement) {
+        audioElement.pause();
+      }
+    }
+
+    // Set the new current episode
+    setCurrentEpisode(episode);
+  };
+
     const onClick = (option) => {
         setSortBy(option) 
     }
@@ -60,8 +97,15 @@ const App = () => {
    
 
     const handleSearchInput = (event) => {
-        setSearchQuery(event.target.value)
-        console.log (searchQuery)
+        setSearchQuery(prevState => ({
+            ...prevState,
+            [event.target.name]: [event.target.value]}))
+
+            
+           
+                    
+                
+
     }
     
    
@@ -78,7 +122,7 @@ const fuseOptions = {
 
 
 const fuse = new Fuse(content, fuseOptions)
-const result = fuse.search(searchQuery)
+const result = fuse.search(searchQuery.title)
 const filteredContent = result.map(character => character.item)
 
 
@@ -90,22 +134,12 @@ if (sortBy === "A-Z") {
       sortedShows = content?.sort((a, b) => new Date(a['updated']) - new Date(b['updated']));
     } else if (sortBy === "Newest to Oldest") {
       sortedShows = content?.sort((a, b) => new Date(b['updated']) - new Date(a['updated']));
-    }
-
+    }else if (searchQuery.genre) sortedShows = (content.filter(show => show.genres.includes(genres[searchQuery.genre]))) 
 
 sortedShows = filteredContent.length === 0 ? content : filteredContent
 
- const Subnav = styled(Box)`
-    margin: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding:.5rem .7rem;
-    font-size: large;
-    color: #51291E;
 
- `
-    const global = css`
+    const global = css`0
         body {
             margin: 0;
             background-color: #edf4ed;
@@ -115,29 +149,68 @@ sortedShows = filteredContent.length === 0 ? content : filteredContent
     return (
         <div>
      <Global styles={global} />
-            <Navbar sortClick={onClick}  setSearchQuery = {setSearchQuery} />
-            {
-               isBrowsing ? <SearchModal handleSearchInput= {handleSearchInput} /> : ''  
-            }
-            {
-               isOnShow?  '':(<Subnav >
-                            
-                            <Link   to="/" style={{ margin: '10px', color: '#51291E', }} >Home</Link>
-                            <Link   to="/favourates" style={{ margin: '10px', color: '#51291E', }} >Favourates</Link>
-                            <Link   to="/browse" style={{ margin: '10px', color: '#51291E', }} >Browse</Link>
-                            
-                                        
-                        </Subnav >) 
-            }
-            <Routes>
-                <Route path="/"  element={<List onClick={handleShowClick} content={sortedShows} />}/>
-                <Route path="/favourates"  element={<Favourates />}/>
-                <Route path="/browse"  element={<List onClick={handleShowClick} content={sortedShows} />}/>
-                <Route path=  {`/show/*`}  element={<Show displayShow={showId} />} />
-            </Routes>
 
+
+
+    <MainApp 
+            onClick = {onClick}
+             setSearchQuery = {setSearchQuery}
+             isBrowsing = {isBrowsing}
+             handleSearchInput = {handleSearchInput}
+             searchQuery = {searchQuery}
+             isOnShow = {isOnShow}
+             handleShowClick = {handleShowClick}
+             sortedShows = {sortedShows}
+             showI = {showId}
+
+        /> 
+            
             </div>
     )
-} 
+}
+
+
+const MainApp = ({ onClick, setSearchQuery, isBrowsing, handleSearchInput, searchQuery, isOnShow, handleShowClick, sortedShows, showId}) => {
+   
+    const Subnav = styled(Box)`
+    margin: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:.5rem .7rem;
+    font-size: large;
+    color: #51291E;
+
+ `
+   
+    return(
+        <>
+            
+            <Navbar sortClick={onClick}  setSearchQuery = {setSearchQuery} />
+    
+    
+                {
+                   isBrowsing ? <SearchModal handleSearchInput= {handleSearchInput} searchQuery={searchQuery} /> : ''  
+                }
+                {
+                   isOnShow?  '':(<Subnav >
+                                
+                                <Link   to="/home" style={{ margin: '10px', color: '#51291E', }} >Home</Link>
+                                <Link   to="/favourates" style={{ margin: '10px', color: '#51291E', }} >Favourates</Link>
+                                <Link   to="/browse" style={{ margin: '10px', color: '#51291E', }} >Browse</Link>
+                                
+                                            
+                            </Subnav >) 
+                }
+                <Routes>
+                    <Route path="/home"  element={<List onClick={handleShowClick} content={sortedShows} />}/>
+                    <Route path="/favourates"  element={<Favourates />}/>
+                    <Route path="/browse"  element={<List onClick={handleShowClick} content={sortedShows} />}/>
+                    <Route path=  {`/show/*`}  element={<Show displayShow={showId} />} />
+                </Routes>
+               
+        </>
+    )
+}
 
 export default App

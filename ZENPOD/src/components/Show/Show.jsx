@@ -12,6 +12,7 @@ import Star from '@mui/icons-material/Star'
 import Loading from "../Loading/Loading"
 import Slider from '@mui/material/Slider'
 import { Link, Route, Routes } from "react-router-dom"
+import supabase from "../../config/supabaseClient"
 
 
 
@@ -24,7 +25,12 @@ const Show = (props) =>{
 /**
  * A state for all the shows that are being marked as favourites
  */
- const [ isFavourate, setIsFavourate] = useState([])
+ const [ isFavourate, setIsFavourate] = useState({
+    title: "",
+    season: "",
+    audioFile: "",
+    showImage: ""
+ })
 
  const [ show, setShow ] = useState()
 
@@ -147,7 +153,7 @@ const EpisodeControls = styled('div')`
     return (
 
         <>
-        <Podcast image={show.image} description={show.description} title={show.title} id={show.id} seasons={show.seasons} setIsFavourate={setIsFavourate}/>
+        <Podcast isFavourate={isFavourate} image={show.image} description={show.description} title={show.title} id={show.id} seasons={show.seasons} setIsFavourate={setIsFavourate}/>
         {/* <Link to= '/'>
          <Button style={{ margin: '10px', color: 'black'  }} >Back</Button>   
          </Link>
@@ -312,6 +318,7 @@ const Header = styled.div`
                                         <Routes>
                                             <Route path="episodes" element={
                                                <Episodes 
+                                               isFavourate= {props.isFavourate}
                                                setIsFavourate={props.setIsFavourate}
                                                seasonNumber={seasonObj.season}
                                                showImg={seasonObj.image}
@@ -331,20 +338,67 @@ const Header = styled.div`
     )
 }
 
-const Episodes = ({ episodesObj, showImg, seasonNumber, setIsFavourate }) => {
-    const addtoFavourites = (event) => {
+const Episodes = ({ episodesObj, showImg, seasonNumber,  }) => {
 
-        if (event.target.classList.contains('is-favourite') ){
-            event.target.classList.remove("is-favourite")
-            event.target.textContent = 'Add to Favourites'
-        } else {
-            event.target.classList.add("is-favourite"); 
-            event.target.textContent = 'Remove from Favourites'
-            const body = event.target
-            setIsFavourate(body.id)
+    // const [ isFavourate, setIsFavourate] = useState({
+    //     title: "",
+    //     season: "",
+    //     audioFile: "",
+    //     showImage: ""
+    //  })
+
+     const handleEpisodeClick = () => {
+        const confirmChange = window.confirm("Do you want to change episode?");
+        if (confirmChange) {
+          onEpisodeChange(episode);
         }
-      }
+      };
 
+    const addtoFavourites = async (event) => {
+        if (event.target.classList.contains("is-favourite")) {
+          // Code to remove from favourites
+        } else {
+          // Code to add to favourites
+          event.target.classList.add("is-favourite");
+          event.target.textContent = "Remove from Favourites";
+          const body = event.target;
+          const isFavourate = {
+            title: body.parentElement.id,
+            season: seasonNumber, // Make sure you have seasonNumber defined somewhere
+            audioFile: body.id,
+            showImage: showImg, // Make sure you have showImg defined somewhere
+          };
+          const addToFavoritesInSupabase = async () => {
+            if (
+              !isFavourate.title ||
+              !isFavourate.season ||
+              !isFavourate.audioFile ||
+              !isFavourate.showImage
+            ) {
+              console.error("Not tracking favourite");
+              return;
+            }
+      
+            const { data, error } = await supabase.from("favorites").upsert([
+              ...isFavourate,
+            ]);
+      
+            if (error) {
+              console.log(error);
+            }
+      
+            if (data) {
+              console.log(data);
+            }
+          };
+      
+          if (isFavourate.title && isFavourate.season && isFavourate.audioFile && isFavourate.showImage) {
+            addToFavoritesInSupabase();
+          }
+        }
+      };
+    
+      
     return (
         <>
             <Typography component={'span'} >
@@ -352,13 +406,13 @@ const Episodes = ({ episodesObj, showImg, seasonNumber, setIsFavourate }) => {
                 {
                     episodesObj.map((episode) => {
                         return (
-                            <Card key={episode.title} >
+                            <Card key={episode.title} id={episode.title} onClick={handleEpisodeClick}>
                                 <Typography component = {'span'}>
 
                                 <h5>{episode.title}</h5>
                                 <p>{episode.description}</p>
                                 <audio  src={episode.file} controls  />
-                                <Button id={episode.title} variant="outlined" sx={{m: 2}} onClick={(event) => addtoFavourites(event) } >
+                                <Button id={episode.file} variant="outlined" sx={{m: 2}} onClick={(event) => addtoFavourites(event) } >
                                           Add to Favourites
                                     </Button>
                                 </Typography>

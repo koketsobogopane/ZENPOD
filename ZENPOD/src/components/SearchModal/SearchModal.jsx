@@ -10,10 +10,13 @@ import { genres } from '../List/List';
 
 const SearchModal = (props) => {
     
-    
-   
-    return (
+    const [age, setAge] = useState('');
 
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  }
+    return (
+<>
         <TextField
             style={{margin: 20, display: 'flex', justifyContent: 'space-around'}}
            onChange={(event) => props.handleSearchInput(event)}
@@ -21,10 +24,33 @@ const SearchModal = (props) => {
           label="Search"
           type="search"
           variant="standard"
-          name='search'
+          name='title'
         />
-            
-        
+        <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
+        <InputLabel id="Genre_label">Genre</InputLabel>
+        <Select
+          labelId="Genre_label"
+          id="Genre"
+          value={props.searchQuery.genre}
+          onChange={(event) => props.handleSearchInput(event)}
+          name='genre'
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          
+          {
+            genres.map(
+                genreObj => {
+                    return (
+                        <MenuItem value={genreObj.id} key={genreObj.id}>{genreObj.name}</MenuItem>
+                    )
+                }
+            )
+          }
+        </Select>
+      </FormControl>  
+      </>      
     )
     
 }
