@@ -3,19 +3,15 @@ import Navbar from "../Navbar/Navbar"
 import { Global, css } from "@emotion/react"
 import List from "../List/List"
 import Show from '../Show/Show'
-import { useEffect, useState, useLayoutEffect } from 'react'
+import { useEffect, useState} from 'react'
 import Loading from "../Loading/Loading"
-import {Box, Switch} from "@mui/material"
+import {Box} from "@mui/material"
 import Fuse from 'fuse.js'
 import { genres } from "../List/List"
-import { Button } from "@mui/material"
 import styled from "@emotion/styled"
-import { Routes, Route, Link, useResolvedPath, useMatch, resolvePath, useNavigate } from "react-router-dom"
+import { Routes, Route, Link, useResolvedPath, useMatch, useNavigate } from "react-router-dom"
 import SearchModal from "../SearchModal/SearchModal"
 import Favourates from "../Favourates/Favourates"
-import SignIn from "../SignIn/SignIn"
-import SignUp from "../SignUp/SignUp"
-import supabase from "../../config/supabaseClient"
 
 
 const App = () => {
@@ -90,8 +86,8 @@ const navigate = useNavigate()
     const handleShowClick = (id) => (
         setShowId(prevState => (
             prevState === id? null : id
-        )),
-        console.log(showId)
+        ))
+        
     )
 
    
@@ -161,7 +157,7 @@ sortedShows = filteredContent.length === 0 ? content : filteredContent
              isOnShow = {isOnShow}
              handleShowClick = {handleShowClick}
              sortedShows = {sortedShows}
-             showI = {showId}
+             showId = {showId}
 
         /> 
             

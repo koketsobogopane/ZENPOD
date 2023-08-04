@@ -1,0 +1,12 @@
+/* CustomCarousel.css */
+/* Style for the previous arrow */
+.slick-prev {
+    /* Add your custom styles here */
+    color: red; /* Change the arrow color to red */
+  }
+  
+  /* Style for the next arrow */
+  .slick-next {
+    /* Add your custom styles here */
+    color: blue; /* Change the arrow color to blue */
+  }
