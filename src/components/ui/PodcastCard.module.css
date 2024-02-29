@@ -1,0 +1,11 @@
+.podcastContainer{
+    display: flex;
+    justify-content: center;
+    object-fit: contain;
+
+}
+.podcastImage {
+    width: 100%;
+    border-radius: 2rem;
+
+}

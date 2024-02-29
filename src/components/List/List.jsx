@@ -10,6 +10,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../../index.css'
+import PodcastCard from '../ui/PodcastCard'
 
 
 export const genres = [	
@@ -222,40 +223,8 @@ const List = (props) => {
             {props.content.map(
                 (element) => {
                     return (
-                        <Grid item xs={12} sm={6} md={4} key={element.id}>
-                        <Link to= {`/show`}  style={{ listStyle: 'none', textDecoration: 'none'}}>
-                        <StyledCard  id={element.id} sx={{ mt: 2}} variant='outlined' onClick={() => {props.onClick(element.id)}}>
-                            
-                            <CardActionArea>
-                                <CardMedia
-                                component="img"
-                                height='240px'
-                                image= {element.image}
-                                alt="Preview Show Image"/>
-
-                                <CardContent>
-                                    <Typography variant='h5' component='div'>
-                                        {element.title}
-                                    </Typography>
-                                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                        Genre: {element.genres.map((genre) => genres[genre -1].name)}
-                                    </Typography>
-                                    <Typography component={'span'}>
-                                        Description:{element.description.slice(0, 50)}
-
-                                    
-                                    </Typography>
-                                    <Typography>
-                                        Last updated:<br/>{`${new Date(element.updated).toLocaleDateString("en-GB")}`}<br/><br/>
-                                    </Typography>
-                                    <Typography>
-                                        Seasons:<br/>{element.seasons}<br/><br/>
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
-                            
-                        </StyledCard>
-                        </Link>
+                        <Grid item xs={7} sm={5} md={2} key={element.id}>
+                        <PodcastCard image= {element.image} title={element.title}/>
                     </Grid>
                     )
                 }
