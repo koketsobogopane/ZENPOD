@@ -1,17 +1,19 @@
 import styles from './PodcastCard.module.css'
+import { Link } from 'react-router-dom';
 
 const PodcastCard = (props) => {
 
     const {image, title,} = props; 
   return (
     <div>
+        <Link to={`/podcasts/${title}`}>
         <div className={styles.podcastContainer}>
         <img className={styles.podcastImage} src={image} alt="title" />
         </div>
         <h3>
             {title}
         </h3>
-        
+        </Link>
     </div>
   )
 }

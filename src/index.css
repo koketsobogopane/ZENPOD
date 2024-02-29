@@ -10,3 +10,8 @@
     /* Add your custom styles here */
     color: blue; /* Change the arrow color to blue */
   }
+  a{
+    text-decoration: none;
+    color: #000;
+
+  }
