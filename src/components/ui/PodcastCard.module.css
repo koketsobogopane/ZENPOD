@@ -1,11 +1,17 @@
-.podcastContainer{
-    display: flex;
-    justify-content: center;
-    object-fit: contain;
-
+.podcastContainer {
+  display: flex;
+  justify-content: center;
+  border-radius: 1rem;
+  background-size: cover;
+  background-position: center;
+  background-image: url('../../../public/assets/noImage.jpg');
 }
-.podcastImage {
-    width: 100%;
-    border-radius: 1rem;
 
+.podcastImage {
+  width: 100%;
+  display: block;
+  aspect-ratio: 1 / 1;
+  border-radius: 1rem;
+  object-position: center;
+  object-fit: cover;
 }

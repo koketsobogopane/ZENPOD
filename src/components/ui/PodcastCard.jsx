@@ -1,24 +1,26 @@
-import styles from './PodcastCard.module.css'
+import styles from './PodcastCard.module.css';
 import { Link } from 'react-router-dom';
 
 const PodcastCard = (props) => {
-
-    const {image, title,} = props; 
+  const { image, title } = props;
   return (
     <div>
-        <Link to={`/show`}>
+      <Link to={`/show`}>
         <div className={styles.podcastContainer}>
-        <img className={styles.podcastImage} src={image} alt="title" />
+          <img
+            className={styles.podcastImage}
+            loading="lazy"
+            src={image}
+            alt="title"
+          />
         </div>
-        <h3>
-            {title}
-        </h3>
-        </Link>
+        <h3>{title}</h3>
+      </Link>
     </div>
-  )
-}
+  );
+};
 
-export default PodcastCard
+export default PodcastCard;
 /**<Link to= {`/show`}  style={{ listStyle: 'none', textDecoration: 'none'}}>
                         <StyledCard  id={element.id} sx={{ mt: 2}} variant='outlined' onClick={() => {props.onClick(element.id)}}>
                             
