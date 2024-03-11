@@ -11,6 +11,7 @@ import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 import SearchModal from '../SearchModal/SearchModal';
 import { FormControl, Menu, MenuItem, Select } from '@mui/material';
 import styles from './Navbar.module.css';
+import Logo from '../../../public/assets/ZenLogo.png'
 
 
 const option = [
@@ -51,7 +52,11 @@ const Navbar = (props) => {
     ` 
     return (
         <header className={styles.header}>
+            <div className = {styles.logoContainer}>
+            <img src={Logo} alt="logo" />
             <h1>ZENPOD</h1>
+            </div>
+            
             <SearchSharpIcon />
         </header>
     )
