@@ -10,6 +10,7 @@ import SelfImprovementSharpIcon from '@mui/icons-material/SelfImprovementSharp';
 import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 import SearchModal from '../SearchModal/SearchModal';
 import { FormControl, Menu, MenuItem, Select } from '@mui/material';
+import styles from './Navbar.module.css';
 
 
 const option = [
@@ -49,49 +50,10 @@ const Navbar = (props) => {
         color: #51291E;
     ` 
     return (
-        <StyleAppBar position="sticky">
-            <Toolbar>
-            <IconButton
-                size='small'
-                edge="start"
-                color='inherit'
-                aria-label="menu"
-                disableRipple= {true}
-                >
-                    <SelfImprovementSharpIcon />   
-                </IconButton>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    ZENPOD
-                </Typography>
-                <FormControl
-                    size='small'
-                    sx={{minWidth: 23}}
-                >
-                    <InputLabel id= 'sorting'>Sort By</InputLabel>
-                    <Select 
-                        labelId='sorting'
-                        value={sortValue}
-                        onChange={(e)=>{setSortValue(e.target.value)}}
-                        autoWidth
-                        label="Sorting"
-                        id='Sorting'
-
-                    >
-                        {option.map((element)=> (
-                            <MenuItem 
-                                value = {element}
-                                onClick= {() => {
-                                    props.sortClick(element)
-                                    handleItemsClick()
-                                }}
-                                key= {element} 
-                                >{element}</MenuItem>
-                            ))}
-                    </Select>
-                </FormControl>
-            </Toolbar>
-        </StyleAppBar>
-        
+        <header className={styles.header}>
+            <h1>ZENPOD</h1>
+            <SearchSharpIcon />
+        </header>
     )
 }
 

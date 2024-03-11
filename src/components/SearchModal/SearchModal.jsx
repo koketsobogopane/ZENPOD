@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField'
 import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { genres } from '../List/List';
+
 
 const SearchModal = (props) => {
     
@@ -39,15 +39,7 @@ const SearchModal = (props) => {
             <em>None</em>
           </MenuItem>
           
-          {
-            genres.map(
-                genreObj => {
-                    return (
-                        <MenuItem value={genreObj.id} key={genreObj.id}>{genreObj.name}</MenuItem>
-                    )
-                }
-            )
-          }
+          
         </Select>
       </FormControl>  
       </>      

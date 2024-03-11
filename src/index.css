@@ -1,5 +1,11 @@
 /* CustomCarousel.css */
 /* Style for the previous arrow */
+*{
+  padding: 0;
+  margin: 0;
+  font-style: normal;
+  font-family: Arial, Helvetica, sans-serif;
+}
 .slick-prev {
     /* Add your custom styles here */
     color: red; /* Change the arrow color to red */

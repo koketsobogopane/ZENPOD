@@ -180,24 +180,8 @@ const MainApp = ({ onClick, setSearchQuery, isBrowsing, handleSearchInput, searc
  `
    
     return(
-        <>
-            
-            <Navbar sortClick={onClick}  setSearchQuery = {setSearchQuery} />
-    
-    
-                {
-                   isBrowsing ? <SearchModal handleSearchInput= {handleSearchInput} searchQuery={searchQuery} /> : ''  
-                }
-                {
-                   isOnShow?  '':(<Subnav >
-                                
-                                <Link   to="/home" style={{ margin: '10px', color: '#51291E', }} >Home</Link>
-                                <Link   to="/favourates" style={{ margin: '10px', color: '#51291E', }} >Favourates</Link>
-                                <Link   to="/browse" style={{ margin: '10px', color: '#51291E', }} >Browse</Link>
-                                
-                                            
-                            </Subnav >) 
-                }
+        <>  
+            <Navbar/>
                 <Routes>
                     <Route path="/home"  element={<List onClick={handleShowClick} content={sortedShows} />}/>
                     <Route path="/favourates"  element={<Favourates />}/>

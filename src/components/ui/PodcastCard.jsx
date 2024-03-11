@@ -6,7 +6,7 @@ const PodcastCard = (props) => {
     const {image, title,} = props; 
   return (
     <div>
-        <Link to={`/podcasts/${title}`}>
+        <Link to={`/show`}>
         <div className={styles.podcastContainer}>
         <img className={styles.podcastImage} src={image} alt="title" />
         </div>
