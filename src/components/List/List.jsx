@@ -4,7 +4,7 @@ import { Grid } from '@mui/material'
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../../index.css'
-import PodcastCard from '../ui/PodcastCard'
+import PodcastCard from '../ui/podcastCard/PodcastCard'
 import styles from './List.module.css'
 
 
@@ -21,7 +21,7 @@ const List = (props) => {
                 (element) => {
                     return (
                         <Grid item xs={7} sm={5} md={2} key={element.id}>
-                        <PodcastCard image= {element.image} title={element.title}/>
+                        <PodcastCard cardElements = {element}/>
                     </Grid>
                     )
                 }

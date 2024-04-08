@@ -183,10 +183,11 @@ const MainApp = ({ onClick, setSearchQuery, isBrowsing, handleSearchInput, searc
         <>  
             <Navbar/>
                 <Routes>
-                    <Route path="/home"  element={<List onClick={handleShowClick} content={sortedShows} />}/>
+                    <Route path="/"  element={<List onClick={handleShowClick} content={sortedShows} />}/>
+                    <Route path="/browse" element={<List onClick={handleShowClick} content={sortedShows} />}/>
                     <Route path="/favourates"  element={<Favourates />}/>
                     <Route path="/browse"  element={<List onClick={handleShowClick} content={sortedShows} />}/>
-                    <Route path=  {`/show/*`}  element={<Show displayShow={showId} />} />
+                    <Route path=  {"/show/:showId"}  element={<Show displayShow={showId} />} />
                 </Routes>
                
         </>

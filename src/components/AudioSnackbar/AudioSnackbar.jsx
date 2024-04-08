@@ -1,6 +1,4 @@
-
-
-import  { useState, useRef } from "react";
+import { useState, useRef } from 'react';
 
 const AudioPlayer = ({ episode }) => {
   const audioRef = useRef(null);
@@ -24,7 +22,7 @@ const AudioPlayer = ({ episode }) => {
       <audio ref={audioRef} onEnded={handleAudioEnded}>
         <source src={episode.audioUrl} />
       </audio>
-      <button onClick={handlePlayPause}>{isPlaying ? "Pause" : "Play"}</button>
+      <button onClick={handlePlayPause}>{isPlaying ? 'Pause' : 'Play'}</button>
     </div>
   );
 };
