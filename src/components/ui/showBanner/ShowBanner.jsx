@@ -1,16 +1,16 @@
 import styles from './showBanner.module.css';
 
 const ShowBanner = (props) => {
-  const { image, title } = props;
+  const { image, title, description } = props;
 
   return (
-    <div>
-      <div
-        className={styles.backgroundImage}
-        style={{ backgroundImage: `url(${image})` }}
-      />
-
-      <h2>{title}</h2>
+    <div className={styles.banner}>
+      <img src={image} className={styles.backgroundImage} alt="banner" />
+      <div  className={styles.content}>
+        <h2>{title}</h2>
+        <p>{description.slice(0, 300)}...</p>
+        <h3>Seasons: {props.seasons.length}</h3>
+      </div>
     </div>
   );
 };
