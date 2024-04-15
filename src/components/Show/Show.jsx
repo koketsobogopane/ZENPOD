@@ -37,7 +37,7 @@ const Show = () => {
   if (showData === null) return <Loading />;
   return (
     <Fragment>
-      <ShowBanner image={showData.image} title={showData.title} />
+      <ShowBanner image={showData.image} title={showData.title} description = {showData.description} seasons = {showData.seasons} />
     </Fragment>
   );
 };
