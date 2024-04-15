@@ -1,4 +1,4 @@
-import styles from './showBanner.module.css';
+import styles from './ShowBanner.module.css';
 import { PropTypes }  from 'prop-types'
 
 const ShowBanner = (props) => {

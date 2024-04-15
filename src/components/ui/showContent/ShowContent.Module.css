@@ -1,0 +1,16 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+}
+.card {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: rgb(230, 230, 230)  solid thin;
+}
+.card img {
+    width: 10%;
+    border-radius: 0.5rem;
+}

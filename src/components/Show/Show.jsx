@@ -39,7 +39,7 @@ const Show = () => {
   return (
     <Fragment>
       <ShowBanner image={showData.image} title={showData.title} description = {showData.description} seasons = {showData.seasons} />
-      <ShowContent/>
+      <ShowContent seasons = {showData.seasons}/>
     </Fragment>
   );
 };
