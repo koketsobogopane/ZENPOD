@@ -6,7 +6,7 @@ const ShowBanner = (props) => {
 
   return (
     <div className={styles.banner}>
-      <img src={image} className={styles.backgroundImage} alt="banner" />
+      <img src={image} loading= 'lazy'className={styles.backgroundImage} alt="banner" />
       <div  className={styles.content}>
         <h2>{title}</h2>
         <p>{description.slice(0, 300)}...</p>
