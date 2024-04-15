@@ -13,6 +13,7 @@ import Slider from '@mui/material/Slider';
 import { Link, Route, Routes, useParams } from 'react-router-dom';
 import supabase from '../../config/supabaseClient';
 import ShowBanner from '../ui/showBanner/ShowBanner';
+import ShowContent from '../ui/showContent/ShowContent'
 
 const Show = () => {
   const { showId } = useParams();
@@ -38,6 +39,7 @@ const Show = () => {
   return (
     <Fragment>
       <ShowBanner image={showData.image} title={showData.title} description = {showData.description} seasons = {showData.seasons} />
+      <ShowContent/>
     </Fragment>
   );
 };

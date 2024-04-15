@@ -1,4 +1,5 @@
 import styles from './showBanner.module.css';
+import { PropTypes }  from 'prop-types'
 
 const ShowBanner = (props) => {
   const { image, title, description } = props;
@@ -14,5 +15,12 @@ const ShowBanner = (props) => {
     </div>
   );
 };
+ShowBanner.proptypes = {
+  image: PropTypes.string,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  seasons: PropTypes.arrayOf(PropTypes.number),
+}
 
 export default ShowBanner;
+
