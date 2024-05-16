@@ -13,4 +13,8 @@
 .card img {
     width: 10%;
     border-radius: 0.5rem;
+    display: block;
+    aspect-ratio: 1 / 1;
+    object-position: center;
+    object-fit: cover;
 }

@@ -14,6 +14,7 @@ import { Link, Route, Routes, useParams } from 'react-router-dom';
 import supabase from '../../config/supabaseClient';
 import ShowBanner from '../ui/showBanner/ShowBanner';
 import ShowContent from '../ui/showContent/ShowContent'
+import  styles  from './Show.module.css'
 
 const Show = () => {
   const { showId } = useParams();
@@ -38,9 +39,13 @@ const Show = () => {
   if (showData === null) return <Loading />;
   return (
     <Fragment>
+      <div className={styles.showContainer}>
       <ShowBanner image={showData.image} title={showData.title} description = {showData.description} seasons = {showData.seasons} />
       <ShowContent seasons = {showData.seasons}/>
+       
+      </div>
     </Fragment>
+    
   );
 };
 

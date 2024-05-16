@@ -7,7 +7,12 @@
   width: 30%;
   height: auto;
   background-image: url('../../../public/assets/noImage.jpg');
-  border-radius: 1rem; 
+  border-radius: 1rem;
+  display: block;
+  aspect-ratio: 1 / 1;
+    object-position: center;
+    object-fit: cover;
+   
 }
 
 .content {
